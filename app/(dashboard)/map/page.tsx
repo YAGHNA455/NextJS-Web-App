@@ -7,10 +7,9 @@ import { Project } from '@/types';
 import dynamic from 'next/dynamic';
 
 // Dynamically import the map component with no SSR
-const ProjectMap = dynamic(
-  () => import('@/components/map/ProjectMap'),
-  { ssr: false }
-);
+const ProjectMap = dynamic(() => import('@/components/map/ProjectMap'), {
+  ssr: false,
+});
 
 export default function MapPage() {
   const [projects, setProjects] = useState<Project[]>([]);
