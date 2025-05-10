@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,6 +9,8 @@ const nextConfig = {
     config.cache = false;
     return config;
   },
+  // Explicitly set this to ensure we're not using static exports
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

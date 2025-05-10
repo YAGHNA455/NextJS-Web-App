@@ -1,27 +1,37 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyDCigz7N1VXQa9Qe_Bk-29kOBRGwYgN4GQ",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "project-management-demo-12ba1.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "project-management-demo-12ba1",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "project-management-demo-12ba1.appspot.com",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "583332187035",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:583332187035:web:7bd1f31ffd891c75d9eec7"
+  apiKey: "AIzaSyD2hGnFwVZv2olOMNhZkgy_O-O1MAgsMQE",
+  authDomain: "nextjs-web-app-fdfcc.firebaseapp.com",
+  projectId: "nextjs-web-app-fdfcc",
+  storageBucket: "nextjs-web-app-fdfcc.firebasestorage.app",
+  messagingSenderId: "260434817199",
+  appId: "1:260434817199:web:e3166290edcde121e7e45a",
+  measurementId: "G-EPPWZX4YZC"
 };
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+let app;
+let auth;
+let db;
+let storage;
 
-// Set persistence to LOCAL (survive browser restarts)
-setPersistence(auth, browserLocalPersistence).catch((error) => {
-  console.error("Error setting auth persistence:", error);
-});
+// Only initialize if we have an API key
+if (firebaseConfig.apiKey) {
+  try {
+    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+    auth = getAuth(app);
+    db = getFirestore(app);
+    storage = getStorage(app);
+  } catch (error) {
+    console.error("Firebase initialization error:", error);
+  }
+} else {
+  console.error("Firebase API key is missing. Check your environment variables.");
+}
 
 export { app, auth, db, storage };
