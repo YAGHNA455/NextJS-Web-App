@@ -86,9 +86,6 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
           positioning: 'bottom-center',
           offset: [0, -10],
           autoPan: true,
-          autoPanAnimation: {
-            duration: 250,
-          },
         });
 
         const map = new Map({
