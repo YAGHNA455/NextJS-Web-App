@@ -14,13 +14,11 @@ const firebaseConfig = {
   measurementId: "G-EPPWZX4YZC"
 };
 
-// Initialize Firebase
 let app;
 let auth;
 let db;
 let storage;
 
-// Only initialize if we have an API key
 if (firebaseConfig.apiKey) {
   try {
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();

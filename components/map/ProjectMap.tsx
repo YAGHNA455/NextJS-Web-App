@@ -7,8 +7,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-
-// OpenLayers imports
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -39,26 +37,22 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
 
     const initializeMap = () => {
       try {
-        // Create vector source and features for all projects
         const vectorSource = new VectorSource();
-        
-        // Add features for all projects
         projects.forEach(project => {
           const feature = new Feature({
             geometry: new Point(fromLonLat([project.location.lng, project.location.lat])),
             project: project,
           });
-          
-          // Style depends on project status
+
           const getMarkerColor = (status: string) => {
             switch (status) {
-              case 'active': return '#22c55e'; // green
-              case 'completed': return '#3b82f6'; // blue
-              case 'on-hold': return '#f59e0b'; // amber
-              default: return '#6b7280'; // gray
+              case 'active': return '#22c55e';
+              case 'completed': return '#3b82f6';
+              case 'on-hold': return '#f59e0b';
+              default: return '#6b7280';
             }
           };
-          
+
           feature.setStyle(new Style({
             image: new CircleStyle({
               radius: 12,
@@ -79,16 +73,14 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
               offsetY: 1,
             }),
           }));
-          
+
           vectorSource.addFeature(feature);
         });
 
-        // Create and configure map
         const vectorLayer = new VectorLayer({
           source: vectorSource,
         });
 
-        // Create the popup overlay
         const popup = new Overlay({
           element: popupRef.current!,
           positioning: 'bottom-center',
@@ -99,7 +91,6 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
           },
         });
 
-        // Initialize map
         const map = new Map({
           target: mapRef.current!,
           layers: [
@@ -109,36 +100,31 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
             vectorLayer,
           ],
           view: new View({
-            center: fromLonLat([-95, 38]), // Center of the US
+            center: fromLonLat([-95, 38]),
             zoom: 4,
           }),
           overlays: [popup],
         });
 
-        // Add click handler
-        map.on('click', function(evt) {
-          const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+        map.on('click', function (evt) {
+          const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
             return feature;
           });
 
           if (feature) {
             const project = feature.get('project') as Project;
             const coordinates = (feature.getGeometry() as Point).getCoordinates();
-            
-            // Update selected project state
+
             setSelectedProject(project);
-            
-            // Position the popup
+
             popup.setPosition(coordinates);
           } else {
-            // Close popup when clicking elsewhere
             popup.setPosition(undefined);
             setSelectedProject(null);
           }
         });
 
-        // Change cursor when hovering over a marker
-        map.on('pointermove', function(e) {
+        map.on('pointermove', function (e) {
           if (!map || !e.pixel) return;
           const pixel = map.getEventPixel(e.originalEvent);
           const hit = map.hasFeatureAtPixel(pixel);
@@ -148,10 +134,8 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
           }
         });
 
-        // Save map instance for cleanup
         mapInstanceRef.current = map;
 
-        // Get map extent that includes all projects
         if (projects.length > 0) {
           const extent = vectorSource.getExtent();
           map.getView().fit(extent, {
@@ -167,12 +151,10 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
       }
     };
 
-    // Small delay to ensure DOM is ready
     const timer = setTimeout(initializeMap, 100);
     return () => clearTimeout(timer);
   }, [projects, mapInitialized]);
 
-  // Update map size on window resize
   useEffect(() => {
     const handleResize = () => {
       if (mapInstanceRef.current) {
@@ -193,8 +175,7 @@ export default function ProjectMap({ projects }: ProjectMapProps) {
   return (
     <div className="relative w-full h-[calc(100vh-12rem)] md:h-[calc(100vh-10rem)] rounded-lg overflow-hidden border">
       <div ref={mapRef} className="w-full h-full" />
-      
-      {/* Popup Overlay */}
+
       <div ref={popupRef} className="absolute z-10 pointer-events-none opacity-0 transition-opacity duration-200">
         {selectedProject && (
           <Card className="w-64 shadow-lg pointer-events-auto animate-in fade-in slide-in-from-bottom-4 duration-200">

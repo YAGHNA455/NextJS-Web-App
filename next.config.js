@@ -9,7 +9,6 @@ const nextConfig = {
     config.cache = false;
     return config;
   },
-  // Explicitly set this to ensure we're not using static exports
   output: 'standalone',
 };
 
