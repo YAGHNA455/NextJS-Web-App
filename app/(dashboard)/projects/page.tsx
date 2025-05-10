@@ -11,7 +11,6 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call delay
     const timer = setTimeout(() => {
       setProjects(sampleProjects);
       setLoading(false);
