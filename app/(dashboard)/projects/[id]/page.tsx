@@ -17,6 +17,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Simulate API call delay
     const timer = setTimeout(() => {
       const foundProject = sampleProjects.find(p => p.id === params.id);
       setProject(foundProject || null);

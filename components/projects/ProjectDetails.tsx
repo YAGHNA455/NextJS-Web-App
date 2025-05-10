@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent } from '@/components/ui/card';
-import { 
+import {
   LucideCalendar,
   LucideMapPin,
   LucideDollarSign,
@@ -81,7 +81,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
             <div>
               <p className="text-sm text-muted-foreground">Timeline</p>
               <p className="font-medium">
-                {new Date(project.startDate).toLocaleDateString()} - 
+                {new Date(project.startDate).toLocaleDateString()} -
                 {project.endDate ? new Date(project.endDate).toLocaleDateString() : 'Ongoing'}
               </p>
             </div>
@@ -138,7 +138,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           </TabsList>
           <TabsContent value="images" className="mt-6">
             <AnimatePresence mode="wait">
-              <motion.div 
+              <motion.div
                 key="images"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -147,16 +147,16 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
               >
                 {project.images.map((image, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     className="aspect-square rounded-lg overflow-hidden"
                   >
-                    <img 
-                      src={image} 
-                      alt={`${project.name} - Image ${index + 1}`} 
+                    <img
+                      src={image}
+                      alt={`${project.name} - Image ${index + 1}`}
                       className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </motion.div>
@@ -166,7 +166,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
           </TabsContent>
           <TabsContent value="videos" className="mt-6">
             <AnimatePresence mode="wait">
-              <motion.div 
+              <motion.div
                 key="videos"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -175,7 +175,7 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                 className="grid grid-cols-1 lg:grid-cols-2 gap-6"
               >
                 {project.videos.map((video, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
