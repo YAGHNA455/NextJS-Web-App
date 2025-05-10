@@ -12,22 +12,19 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  
+
   useEffect(() => {
     if (!loading) {
-      // If not logged in and trying to access a protected route
       if (!user && !pathname.includes('/login') && !pathname.includes('/signup') && !pathname.includes('/forgot-password')) {
         router.push('/login');
       }
-      
-      // If logged in and trying to access auth routes
+
       if (user && (pathname.includes('/login') || pathname.includes('/signup') || pathname.includes('/forgot-password'))) {
         router.push('/projects');
       }
     }
   }, [user, loading, router, pathname]);
 
-  // Show nothing while checking auth status
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -35,6 +32,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       </div>
     );
   }
-  
+
   return <>{children}</>;
 }
