@@ -1,9 +1,8 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD2hGnFwVZv2olOMNhZkgy_O-O1MAgsMQE",
   authDomain: "nextjs-web-app-fdfcc.firebaseapp.com",
@@ -14,22 +13,10 @@ const firebaseConfig = {
   measurementId: "G-EPPWZX4YZC"
 };
 
-let app;
-let auth;
-let db;
-let storage;
+const app = initializeApp(firebaseConfig);
 
-if (firebaseConfig.apiKey) {
-  try {
-    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    auth = getAuth(app);
-    db = getFirestore(app);
-    storage = getStorage(app);
-  } catch (error) {
-    console.error("Firebase initialization error:", error);
-  }
-} else {
-  console.error("Firebase API key is missing. Check your environment variables.");
-}
+const auth = getAuth(app) as Auth;
+const db = getFirestore(app);
+const storage = getStorage(app);
 
 export { app, auth, db, storage };
